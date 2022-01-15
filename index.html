@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo usando AJAX</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+
+
+
+<body style="background-color: whitesmoke;">
+
+    <br><br>
+    <div style="text-align: center;">
+        <h1 style="text-align: center; text-transform: uppercase; font-size: xx-large;">Ejemplo Ajax usando el objeto
+            nativo
+            XMLHttpRequest usando JSON</h1>
+        <br>
+        <button id="boton" class="btn btn-primary">Petición de Información</button>
+    </div>
+
+    <br>
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr class="table-info">
+                <th>UserID</th>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Completed</th>
+            </tr>
+        </thead>
+
+        <tbody id="tabla">
+
+        </tbody>
+
+    </table>
+
+</body>
+
+</html>
+
+<script>
+    function ajax() {
+        const http = new XMLHttpRequest;
+        const url = "https://jsonplaceholder.typicode.com/todos";
+        http.onreadystatechange = function () {
+            // Validar respuesta
+            if (this.status == 200 && this.readyState == 4) {
+                console.log(this.responseText);
+                let res = document.getElementById("tabla");
+
+                const json = JSON.parse(this.responseText);
+                tabla.innerHTML = '';
+                for (const datajson of json) {
+                    console.log(datajson.title);
+                    tabla.innerHTML += `
+                        <tr class="text-uppercase">
+                            <td>${datajson.userId}</td>
+                            <td>${datajson.id}</td>
+                            <td>${datajson.title}</td>
+                            <td>${datajson.completed}</td>
+                        </tr>
+                    `
+                }
+            }
+        }
+        http.open('GET', url, true);
+        http.send();
+    }
+
+    document.getElementById("boton").addEventListener("click", function () {
+        ajax();
+    });
+</script>
